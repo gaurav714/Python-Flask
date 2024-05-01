@@ -3,6 +3,8 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
+from flask_pymongo import PyMongo
+
 
 
 db=SQLAlchemy()
@@ -19,6 +21,9 @@ def create_app():
     db_uri = 'mysql+mysqlconnector://' + username + ':' + password + '@' + host + ':' + str(port) + '/' + database_name
     app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
     app.config['SECRET_KEY'] = '12345'
+   
+    
+
 
     ##INITIALIZING our database
     db.init_app(app)

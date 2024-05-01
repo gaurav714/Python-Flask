@@ -1,5 +1,4 @@
 from . import db
-
 ## user mixin class from flask-login is a easy way to implement common authentication functionalities
 from flask_login import UserMixin
 
@@ -11,4 +10,6 @@ class user(db.Model, UserMixin):
 
     def __repr__(self):
        return '<User %r>' % self.username
+    
+
 

@@ -1,0 +1,20 @@
+{%extends 'navbar.html'%}
+{%block head%} {{super()}}
+{% endblock %}
+
+{% block content %}
+<div class="container-sm" style="height: 200px; width: 500px; margin: 0 auto;">
+    <form method="POST" action="/addworkout">
+        <div class="mb-3">
+            <label for="pushupcount" class="form-label">Pushup Count</label>
+            <input type="number" class="form-control" id="pushupcount" name="pushupcount">
+        </div>
+        <div class="form-group">
+            <label for="comments">Comments</label>
+            <textarea class="form-control" id="comments" name="comments" rows="3"></textarea>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+  {% endblock %}

@@ -2,3 +2,5 @@ pip install flask
 pip install mysql-connector-python
 pip install Flask-SQLAlchemy
 pip install Flask-Login
+pip install Flask-PyMongo
+pip install pydantic
