@@ -3,6 +3,23 @@
 {% endblock %}
 
 {% block content %}
-{{pushupdata}}
+
+{% if pushupdata %}
+    {% for item in pushupdata %}
+
+    <div class="card text-white bg-secondary mb-3" style="max-width: 18rem;">
+        <div class="card-header">Workout: {{ loop.index }}</div>
+        <div class="card-body">
+            <li>{{ item.get('pushupcount') }}</li>
+            <li>{{ item.get('comments') }}</li>
+            <li>{{ item.get('date') }}</li>
+        </div>
+    </div>
+        
+    {% endfor %}
+  
+{% else %}
+  <p>No Workouts Logged Yet</p>
+{% endif %}
 
 {%endblock%}

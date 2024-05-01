@@ -33,7 +33,7 @@ def create_app():
 
     ##login manager is used for session management creation and deletion
     login_manager=LoginManager()
-    login_manager.login_view='auth.login'
+    #login_manager.login_view='auth.login'
     login_manager.init_app(app)
 
     ##after the session is created we need to load the user by the user id using userloader

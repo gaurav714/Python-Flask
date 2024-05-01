@@ -1,5 +1,5 @@
 ## LOGIN features
-from flask import Blueprint, render_template, url_for, request, redirect
+from flask import Blueprint, render_template, url_for, request, redirect, flash
 from flask_login import login_user, logout_user, login_required
 
 ##For storing password as hash
@@ -31,6 +31,7 @@ def signup_post():
 
     UserAlreadyPresent=user.query.filter_by(email=email).first()
     if UserAlreadyPresent:
+        flash('Email address already exists')
         print("user already present!!!")
         return redirect(url_for('auth.login'))
     
@@ -39,9 +40,11 @@ def signup_post():
         db.session.add(new_user)
         try:
             db.session.commit()
+            flash('User created successfully!')
             print('User created successfully!')
             return redirect(url_for('auth.login'))
         except Exception as e:
+            flash('Error creating user')
             print(f'Error creating user: {e}')
             return redirect(url_for('auth.signup'))
             # Handle the error appropriately (e.g., rollback the session)
@@ -58,12 +61,18 @@ def login_post():
     #checking if the user exists or the password is incorrect
     UserExists= user.query.filter_by(email=email).first()
 
-    if not UserExists or check_password_hash(UserExists.password, password):
-        print ("user does not exist or password is incorrect")
-        return render_template(url_for('auth.login'))
+    if not UserExists:
+        print ("user does not exist please signup first")
+        flash('User does not exist please signup first')
+        return redirect(url_for('auth.signup'))
+    elif UserExists and not check_password_hash(UserExists.password, password):
+        print ("password is incorrect")
+        flash('password is incorrect')
+        return redirect(url_for('auth.login'))
     else:
         login_user(UserExists, remember=rem)
-        return redirect (url_for('main.profile'))
+        flash('Logged in successfully!')
+        return redirect(url_for('main.profile'))
 
 @auth.route('/logout')
 @login_required

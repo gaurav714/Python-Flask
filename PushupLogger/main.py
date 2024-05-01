@@ -1,7 +1,7 @@
 ## CRUD operations 
 import datetime
-from flask import Blueprint, render_template, url_for, request, redirect
-from flask_login import login_required, current_user
+from flask import Blueprint, render_template, url_for, request, redirect, flash
+from flask_login import login_required, current_user, logout_user
 #from . import db_mongo
 from .mongo import Connection
 
@@ -19,12 +19,17 @@ def index():
 def profile():
     #query = {'email': current_user.email}
     pushupdata=list(db_mongo.userData.find({'email': current_user.email}))
+    print(current_user.email)
+    for i in pushupdata:
+        print(i.get('pushupcount'))
     return render_template('profile.html',pushupdata=pushupdata)
 
 @main.route('/logout')
 @login_required
 def logout():
-    return render_template('logout.html')
+    logout_user()
+    flash('You have been logged out!')
+    return redirect(url_for('main.index'))
 
 @main.route('/addworkout')
 @login_required
@@ -43,6 +48,7 @@ def addworkout_post():
         print('Failed to save data')
     else:
         print('Data saved successfully')
+        flash('Workout added successfully')
     return redirect(url_for('main.addworkout'))
 
     
