@@ -2,7 +2,6 @@
 import datetime
 from flask import Blueprint, render_template, url_for, request, redirect, flash
 from flask_login import login_required, current_user, logout_user
-#from . import db_mongo
 from .mongo import Connection
 
 db_mongo=Connection('pushup_db')
@@ -51,5 +50,19 @@ def addworkout_post():
         flash('Workout added successfully')
     return redirect(url_for('main.addworkout'))
 
-    
+# @main.route('/globalchat')
+# @login_required
+# def globalchat():
+#     return render_template('globalchat.html')
 
+# @main.route('/globalchat', methods=['POST'])
+# @login_required
+# def globalchat_post():
+#     name=current_user.name
+#     message=request.form.get('message')
+   
+#     return render_template('globalchat.html', name=name, message=message)
+@main.route('/globalchat')
+@login_required
+def globalchat():
+    return render_template('globalchat.html')

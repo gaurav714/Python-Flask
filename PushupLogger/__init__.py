@@ -4,14 +4,16 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_pymongo import PyMongo
+from websockets import serve, WebSocketServerProtocol
+from flask_socketio import SocketIO
+
 
 
 
 db=SQLAlchemy()
-
+socketio=SocketIO()
 def create_app():
     app=Flask(__name__)
-
     username = 'root'
     password = 'Gmail123'
     host = 'localhost'
@@ -22,11 +24,9 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
     app.config['SECRET_KEY'] = '12345'
    
-    
-
-
     ##INITIALIZING our database
     db.init_app(app)
+    socketio.init_app(app, cors_allowed_origins="*")
 
     #import after initializing to remove circular dependency error
     from .models import user
@@ -47,4 +47,7 @@ def create_app():
     
     from .auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint)
+
+    from .chat import chat as chat_blueprint
+    app.register_blueprint(chat_blueprint)
     return app
